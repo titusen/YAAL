@@ -1,17 +1,21 @@
 #include <memory>
 #include <stack>
 
+#ifndef YAAL_DEFAULT_CHUNK_SIZE
+    #define YAAL_DEFAULT_CHUNK_SIZE 264
+#endif
+
 template <typename T>
 class ChunkAllocator
 {
 public:
     using value_type = T;
-    ChunkAllocator(const u_int32_t chunkSize = 264) : chunkSize(chunkSize)
+    ChunkAllocator(const u_int32_t chunkSize = YAAL_DEFAULT_CHUNK_SIZE) : chunkSize(chunkSize)
     {
         chunks.push(Chunk(chunkSize));
     }
     template <typename U>
-    ChunkAllocator(const ChunkAllocator<U> &) {}
+    ChunkAllocator(const ChunkAllocator<U> &) : chunkSize(YAAL_DEFAULT_CHUNK_SIZE) {}
     T *allocate(std::size_t n)
     {
         if (n > 1)
@@ -81,11 +85,11 @@ private:
         }
         T *getMemPtr()
         {
-            if (counter++ == chunkSize - 1)
+            if (counter == chunkSize - 1)
             {
                 return nullptr;
             }
-            return reinterpret_cast<T *>(reinterpret_cast<char *>(ptr) + sizeof(T) * (counter));
+            return reinterpret_cast<T *>(reinterpret_cast<char *>(ptr) + sizeof(T) * (++counter));
         }
     };
     const u_int32_t chunkSize;
