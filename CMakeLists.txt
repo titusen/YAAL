@@ -24,6 +24,15 @@ target_link_libraries(ChunkAllocatorTest
     YAAL
 )
 
+add_executable(
+    PerformanceComparisonTest
+    tests/PerformanceComparisonTest.cpp
+)
+
+target_link_libraries(PerformanceComparisonTest
+    GTest::gtest_main
+)
+
 target_include_directories(
     ChunkAllocatorTest
     PUBLIC
@@ -31,6 +40,7 @@ target_include_directories(
 )
 
 include(GoogleTest)
-gtest_discover_tests(ChunkAllocatorTest)
+gtest_discover_tests(ChunkAllocatorTest) 
+gtest_discover_tests(PerformanceComparisonTest)
 
 FetchContent_MakeAvailable(googletest)
