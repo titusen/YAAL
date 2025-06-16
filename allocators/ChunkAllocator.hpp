@@ -1,12 +1,17 @@
+#pragma once
+#include <cstdlib>
+#include <cstdint>
 #include <memory>
 #include <stack>
+#include "ChunkAllocatorBase.hpp"
+
+namespace yaal {
 
 #ifndef YAAL_DEFAULT_CHUNK_SIZE
     #define YAAL_DEFAULT_CHUNK_SIZE 264
 #endif
-
 template <typename T>
-class ChunkAllocator
+class ChunkAllocator : public ChunkAllocatorBase<T>
 {
 public:
     using value_type = T;
@@ -53,46 +58,10 @@ public:
     }
 
 private:
-    class Chunk
-    {
-    private:
-        void *ptr;
-        u_int32_t counter;
-        const u_int32_t chunkSize;
-
-    public:
-        Chunk(const u_int32_t chunkSize) : counter(0), chunkSize(chunkSize)
-        {
-            ptr = std::malloc(chunkSize * sizeof(T));
-            if (ptr == nullptr)
-            {
-                throw std::bad_alloc();
-            }
-        }
-        Chunk(Chunk&) = delete;
-        Chunk(Chunk &&chunk) : chunkSize(chunk.chunkSize)
-        {
-            ptr = chunk.ptr;
-            chunk.ptr = nullptr;
-            counter = chunk.counter;
-        }
-        ~Chunk()
-        {
-            if (ptr)
-            {
-                std::free(ptr);
-            }
-        }
-        T *getMemPtr()
-        {
-            if (counter == chunkSize - 1)
-            {
-                return nullptr;
-            }
-            return reinterpret_cast<T *>(reinterpret_cast<char *>(ptr) + sizeof(T) * (++counter));
-        }
-    };
+    using Chunk = typename ChunkAllocatorBase<T>::Chunk;
     const u_int32_t chunkSize;
     std::stack<T *> stackT;
     std::stack<Chunk> chunks;
 };
+
+}

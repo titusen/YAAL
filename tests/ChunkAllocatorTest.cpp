@@ -3,6 +3,8 @@
 #include "YAAL.hpp"
 #include "TestsConstants.hpp"
 
+using yaal::ChunkAllocator;
+
 TEST(ChunkAllocatorTest, BasicValidation)
 {
     std::set<long, std::less<long>, ChunkAllocator<long>> mySet;
