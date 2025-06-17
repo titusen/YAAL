@@ -34,6 +34,8 @@ namespace yaal {
     
 #endif
 
+// ChunkAllocator for variable size chunks
+// RECOMMENDED for use with std::unordered_set and std::unordered_map 
 template<typename T>
 class VariableSizeChunkAllocator : public ChunkAllocatorBase<T>
 {
