@@ -1,67 +1,31 @@
 #include <gtest/gtest.h>
 #include <unordered_set>
-#include "TestsConstants.hpp"
+#include "TestTemplates.hpp"
 
 TEST(PerformanceComparisionTest, OnlyAdditionsPerformanceSet)
 {
     std::set<long> mySet;
 
-    for (long i = 0; i < toAdd1; ++i)
-    {
-        mySet.insert(i);
-    }
-    ASSERT_EQ(mySet.size(), toAdd1);
+    OnlyAdditionsPerformance(mySet);
 }
 
 TEST(PerformanceComparisionTest, AdditionsRemovalsPerformanceSet)
 {
     std::set<long> mySet;
 
-    for (long i = 0; i < toAdd1; ++i)
-    {
-        mySet.insert(i);
-    }
-    ASSERT_EQ(mySet.size(), toAdd1);
-
-    for (long i = toRemove; i > 0; --i)
-    {
-        mySet.erase(i);
-    }
-
-    for (long i = 0; i < toAdd2; ++i)
-    {
-        mySet.insert(i + toAdd1);
-    }
+    AdditionsRemovalsPerformance(mySet);
 }
 
 TEST(PerformanceComparisionTest, OnlyAdditionsPerformanceHashSet)
 {
     std::unordered_set<long> mySet;
 
-    for (long i = 0; i < toAdd1; ++i)
-    {
-        mySet.insert(i);
-    }
-    ASSERT_EQ(mySet.size(), toAdd1);
+    OnlyAdditionsPerformance(mySet);
 }
 
 TEST(PerformanceComparisionTest, AdditionsRemovalsPerformanceHashSet)
 {
     std::unordered_set<long> mySet;
 
-    for (long i = 0; i < toAdd1; ++i)
-    {
-        mySet.insert(i);
-    }
-    ASSERT_EQ(mySet.size(), toAdd1);
-
-    for (long i = toRemove; i > 0; --i)
-    {
-        mySet.erase(i);
-    }
-
-    for (long i = 0; i < toAdd2; ++i)
-    {
-        mySet.insert(i + toAdd1);
-    }
+    AdditionsRemovalsPerformance(mySet);
 }
