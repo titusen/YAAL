@@ -15,6 +15,9 @@ class ChunkAllocator : public ChunkAllocatorBase<T>
 {
 public:
     using value_type = T;
+    using Chunk = typename ChunkAllocatorBase<T>::Chunk;
+    using ChunkAllocatorBase<T>::stackT;
+    using ChunkAllocatorBase<T>::chunks;
     ChunkAllocator(const u_int32_t chunkSize = YAAL_DEFAULT_CHUNK_SIZE) : chunkSize(chunkSize)
     {
         chunks.push(Chunk(chunkSize));
@@ -45,23 +48,9 @@ public:
         stackT.pop();
         return p;
     }
-    void deallocate(T *p, std::size_t n)
-    {
-        if (n > 1)
-        {
-            std::free(p);
-        }
-        else
-        {
-            stackT.push(p);
-        }
-    }
 
 private:
-    using Chunk = typename ChunkAllocatorBase<T>::Chunk;
     const u_int32_t chunkSize;
-    std::stack<T *> stackT;
-    std::stack<Chunk> chunks;
 };
 
 }

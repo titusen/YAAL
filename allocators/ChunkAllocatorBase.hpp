@@ -10,22 +10,30 @@ class ChunkAllocatorBase : public std::allocator<T>
 public:
     using value_type = T;
 
-    ChunkAllocatorBase() noexcept = default;
     template <typename U>
     ChunkAllocatorBase(const ChunkAllocatorBase<U>&) noexcept {}
-
+    
     T* allocate(std::size_t n) {
         if (auto p = static_cast<T*>(::operator new(n * sizeof(T)))) {
             return p;
         }
         throw std::bad_alloc();
     }
-
-    void deallocate(T* p, std::size_t) noexcept {
-        ::operator delete(p);
+    
+    void deallocate(T *p, std::size_t n)
+    {
+        if (n > 1)
+        {
+            std::free(p);
+        }
+        else
+        {
+            stackT.push(p);
+        }
     }
     ~ChunkAllocatorBase() = default;
 protected:
+    ChunkAllocatorBase() noexcept = default;
     // Prevent copying and assignment
     ChunkAllocatorBase(const ChunkAllocatorBase&) = delete;
     ChunkAllocatorBase& operator=(const ChunkAllocatorBase&) = delete;
@@ -71,6 +79,9 @@ protected:
             return reinterpret_cast<T *>(reinterpret_cast<char *>(ptr) + sizeof(T) * (++counter));
         }
     };
+
+    std::stack<T *> stackT;
+    std::stack<Chunk> chunks;
 };
 
 template <typename T, typename U>
