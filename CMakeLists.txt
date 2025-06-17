@@ -24,6 +24,12 @@ target_link_libraries(ChunkAllocatorTest
     YAAL
 )
 
+target_include_directories(
+    ChunkAllocatorTest
+    PUBLIC
+    .
+)
+
 add_executable(
     PerformanceComparisonTest
     tests/PerformanceComparisonTest.cpp
@@ -33,8 +39,17 @@ target_link_libraries(PerformanceComparisonTest
     GTest::gtest_main
 )
 
+add_executable(
+    VariableSizeChunkAllocatorTest
+    tests/VariableSizeChunkAllocatorTest.cpp
+)
+target_link_libraries(VariableSizeChunkAllocatorTest
+    GTest::gtest_main
+    YAAL
+)
+
 target_include_directories(
-    ChunkAllocatorTest
+    VariableSizeChunkAllocatorTest
     PUBLIC
     .
 )
@@ -42,5 +57,6 @@ target_include_directories(
 include(GoogleTest)
 gtest_discover_tests(ChunkAllocatorTest) 
 gtest_discover_tests(PerformanceComparisonTest)
+gtest_discover_tests(VariableSizeChunkAllocatorTest)
 
 FetchContent_MakeAvailable(googletest)

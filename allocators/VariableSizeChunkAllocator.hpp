@@ -10,13 +10,25 @@ namespace yaal {
 
 #ifndef YAAL_MODIFY_CHUNK_SIZE
     #define YAAL_MODIFY_CHUNK_SIZE 1
+    // Due to stl allocator requirements, there is a need to provide a way to modify the chunk size.
+    // There is no way to pass it to a constructor.
+    // struct ChunkSizeModifier
+    // {
+    //     uint32_t incrementBy;
+    //     ChunkSizeModifier(const uint32_t incrementBy = 32) : incrementBy(incrementBy) {}
+    //     void modifyChunkSize(uint32_t &chunkSize) const
+    //     {
+    //         chunkSize += incrementBy;
+    //     }
+    // };
+
     struct ChunkSizeModifier
     {
-        uint32_t incrementBy;
-        ChunkSizeModifier(uint32_t incrementBy = 32) : incrementBy(incrementBy) {}
+        const double multiplyBy;
+        ChunkSizeModifier(const double multiplyBy = 1.24) : multiplyBy(multiplyBy) {}
         void modifyChunkSize(uint32_t &chunkSize) const
         {
-            chunkSize += incrementBy;
+            chunkSize *= multiplyBy;
         }
     };
     
@@ -34,7 +46,7 @@ public:
     {
         chunks.push(Chunk(chunkSize));
     }
-    ~VariableSizeChunkAllocator();
+    ~VariableSizeChunkAllocator() = default;
 
     template <typename U>
     VariableSizeChunkAllocator(const VariableSizeChunkAllocator<U> &) : chunkSize(YAAL_DEFAULT_CHUNK_SIZE) {}
