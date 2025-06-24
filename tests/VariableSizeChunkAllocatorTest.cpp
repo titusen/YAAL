@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include "TestTemplates.hpp"
 
-#include "YAAL.hpp"
+#include "allocators/VariableSizeChunkAllocator.hpp"
 
 using yaal::VariableSizeChunkAllocator;
 
@@ -44,4 +44,58 @@ TEST(VariableSizeChunkAllocatorTest, AdditionsRemovalsPerformanceHashSet)
         mySet;
 
     AdditionsRemovalsPerformance(mySet);
+}
+
+TEST(VariableSizeChunkAllocatorTest, BasicValidationMap)
+{
+    std::map<long, DummyData, std::less<long>,
+             VariableSizeChunkAllocator<std::pair<const long, DummyData>>>
+        myMap;
+
+    BasicValidationMap(myMap);
+}
+
+TEST(VariableSizeChunkAllocatorTest, OnlyAdditionsPerformanceMap)
+{
+    std::map<long, DummyData, std::less<long>,
+             VariableSizeChunkAllocator<std::pair<const long, DummyData>>>
+        myMap;
+
+    OnlyAdditionsPerformanceMap(myMap);
+}
+
+TEST(VariableSizeChunkAllocatorTest, AdditionsRemovalsPerformanceMap)
+{
+    std::map<long, DummyData, std::less<long>,
+             VariableSizeChunkAllocator<std::pair<const long, DummyData>>>
+        myMap;
+
+    AdditionsRemovalsPerformanceMap(myMap);
+}
+
+TEST(VariableSizeChunkAllocatorTest, BasicValidationHashMap)
+{
+    std::unordered_map<long, DummyData, std::hash<long>, std::equal_to<long>,
+                       VariableSizeChunkAllocator<std::pair<const long, DummyData>>>
+        myMap;
+
+    BasicValidationMap(myMap);
+}
+
+TEST(VariableSizeChunkAllocatorTest, OnlyAdditionsPerformanceHashMap)
+{
+    std::unordered_map<long, DummyData, std::hash<long>, std::equal_to<long>,
+                       VariableSizeChunkAllocator<std::pair<const long, DummyData>>>
+        myMap;
+
+    OnlyAdditionsPerformanceMap(myMap);
+}
+
+TEST(VariableSizeChunkAllocatorTest, AdditionsRemovalsPerformanceHashMap)
+{
+    std::unordered_map<long, DummyData, std::hash<long>, std::equal_to<long>,
+                       VariableSizeChunkAllocator<std::pair<const long, DummyData>>>
+        myMap;
+
+    AdditionsRemovalsPerformanceMap(myMap);
 }

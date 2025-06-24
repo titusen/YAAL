@@ -29,3 +29,31 @@ TEST(PerformanceComparisionTest, AdditionsRemovalsPerformanceHashSet)
 
     AdditionsRemovalsPerformance(mySet);
 }
+
+TEST(PerformanceComparisionTest, OnlyAdditionsPerformanceMap)
+{
+    std::map<long, DummyData> myMap;
+
+    OnlyAdditionsPerformanceMap(myMap);
+}
+
+TEST(PerformanceComparisionTest, AdditionsRemovalsPerformanceMap)
+{
+    std::map<long, DummyData> myMap;
+
+    AdditionsRemovalsPerformanceMap(myMap);
+}
+
+TEST(PerformanceComparisionTest, OnlyAdditionsPerformanceHashMap)
+{
+    std::unordered_map<long, DummyData> myMap;
+
+    OnlyAdditionsPerformanceMap(myMap);
+}
+
+TEST(PerformanceComparisionTest, AdditionsRemovalsPerformanceHashMap)
+{
+    std::unordered_map<long, DummyData> myMap;
+
+    AdditionsRemovalsPerformanceMap(myMap);
+}

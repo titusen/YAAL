@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <cstdint>
 #include <memory>
-#include <stack>
 #include "ChunkAllocatorBase.hpp"
 
 namespace yaal {

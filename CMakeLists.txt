@@ -2,8 +2,12 @@ cmake_minimum_required(VERSION 3.10.0)
 project(YAAL VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra")
-    
-add_library(YAAL YAAL.hpp)
+
+set(HEADER_FILES
+    allocators/ChunkAllocator.hpp
+    allocators/VariableSizeChunkAllocator.hpp
+)
+add_library(YAAL ${HEADER_FILES})
 set_target_properties(YAAL PROPERTIES LINKER_LANGUAGE CXX)
 
 enable_testing()
