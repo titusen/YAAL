@@ -31,11 +31,53 @@ void BasicValidation(Container &container) {
     ASSERT_EQ(container.size(), toAdd2 - toRemove);
 }
 
+struct DummyData {
+    int value;
+    char data[64]; // Padding to simulate larger data structure
+    DummyData(int v) : value(v) {}
+    bool operator==(const DummyData &other) const { return value == other.value; }
+};
+
+template <typename Container>
+void BasicValidationMap(Container &container) {
+    const long toAdd1 = 500;
+    for (long i = 0; i < toAdd1; ++i)
+    {
+        container.insert(std::make_pair(i, DummyData(i)));
+    }
+    ASSERT_EQ(container.size(), toAdd1);
+
+    const long toRemove = 400;
+    for (long i = toRemove; i > 0; --i)
+    {
+        container.erase(i);
+    }
+
+    ASSERT_EQ(container.size(), toAdd1 - toRemove);
+
+    const long toAdd2 = 900;
+    for (long i = toAdd1; i < toAdd2; ++i)
+    {
+        container.insert(std::make_pair(i, DummyData(i)));
+    }
+
+    ASSERT_EQ(container.size(), toAdd2 - toRemove);
+}
+
 template <typename Container>
 void OnlyAdditionsPerformance(Container &container) {
     for (long i = 0; i < toAdd1; ++i)
     {
         container.insert(i);
+    }
+    ASSERT_EQ(container.size(), toAdd1);
+}
+
+template <typename Container>
+void OnlyAdditionsPerformanceMap(Container &container) {
+    for (long i = 0; i < toAdd1; ++i)
+    {
+        container.insert(std::make_pair(i, DummyData(i)));
     }
     ASSERT_EQ(container.size(), toAdd1);
 }
@@ -56,5 +98,24 @@ void AdditionsRemovalsPerformance(Container &container) {
     for (long i = 0; i < toAdd2; ++i)
     {
         container.insert(i + toAdd1);
+    }
+}
+
+template <typename Container>
+void AdditionsRemovalsPerformanceMap(Container &container) {
+    for (long i = 0; i < toAdd1; ++i)
+    {
+        container.insert(std::make_pair(i, DummyData(i)));
+    }
+    ASSERT_EQ(container.size(), toAdd1);
+
+    for (long i = toRemove; i > 0; --i)
+    {
+        container.erase(i);
+    }
+
+    for (long i = 0; i < toAdd2; ++i)
+    {
+        container.insert(std::make_pair(i + toAdd1, DummyData(i)));
     }
 }

@@ -25,7 +25,7 @@ namespace yaal {
     struct ChunkSizeModifier
     {
         const double multiplyBy;
-        ChunkSizeModifier(const double multiplyBy = 1.24) : multiplyBy(multiplyBy) {}
+        ChunkSizeModifier(const double multiplyBy = 2.4) : multiplyBy(multiplyBy) {}
         void modifyChunkSize(uint32_t &chunkSize) const
         {
             chunkSize *= multiplyBy;
@@ -35,7 +35,8 @@ namespace yaal {
 #endif
 
 // ChunkAllocator for variable size chunks
-// RECOMMENDED for use with std::unordered_set and std::unordered_map 
+// RECOMMENDED for use with std::unordered_set and std::unordered_map
+// NOT RECOMMENDED for use with std::set and std::map
 template<typename T>
 class VariableSizeChunkAllocator : public ChunkAllocatorBase<T>
 {
